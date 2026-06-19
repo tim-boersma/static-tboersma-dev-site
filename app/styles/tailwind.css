@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+@source "../**/*.{vue,ts,js}";
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #020617;
+}
+
+/* Custom animations for SVG elements */
+@keyframes svgPulse {
+  0%,
+  100% {
+    stroke-dasharray: 283;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  50% {
+    stroke-dasharray: 283;
+    stroke-dashoffset: 283;
+    opacity: 0.5;
+  }
+}
+
+.animated-circle {
+  animation: svgPulse 2s ease-in-out infinite;
+  transition: stroke 0.3s ease;
+}
+
+.center-dot {
+  transition: fill 0.3s ease;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+.status-circle {
+  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.1));
+}

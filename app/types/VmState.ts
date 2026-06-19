@@ -1,0 +1,1 @@
+export type VmState = 'stopping' | 'stopped' | 'starting' | 'running' | 'deallocated' | 'creating' | 'deallocating';
