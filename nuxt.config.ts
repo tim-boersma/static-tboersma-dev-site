@@ -11,6 +11,14 @@ export default defineNuxtConfig({
     '@primevue/nuxt-module',
   ],
   vite: {
+    optimizeDeps: {
+      include: [
+        '@pinia/colada',
+        '@vue/devtools-core',
+        '@vue/devtools-kit',
+        'axios'
+      ]
+    },
     server: {
       watch: {
         usePolling: true
@@ -35,6 +43,7 @@ export default defineNuxtConfig({
   postcss: {
     plugins: {
       '@tailwindcss/postcss': {},
+      autoprefixer: {},
     },
   },
   css: [
@@ -43,14 +52,11 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     //.env variables prefixed with NUXT_ are automatically filled in
-    azureFunctionUrl: '',
-    apiFunctionMasterKey: '',
-    applicationinsightsConnectionString: '',
     public: {
       //.env variables prefixed with NUXT_PUBLIC_ are automatically added
     },
   },
-  ssr: false,
+  ssr: true,
   nitro: {
     preset: 'static'
   }

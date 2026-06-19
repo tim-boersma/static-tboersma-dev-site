@@ -3,8 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "nuxt dev --force",
-    "build": "npx nuxi generate",
+    "dev:nuxt": "nuxt dev",
+    "dev:api": "cd api && npm run build && cd .. && swa start http://localhost:3000 --api-location api --api-language node",
+    "dev": "concurrently \"nuxt dev\" \"cd api && tsc --watch\" \"cd api && func start\" \"wait-on http://localhost:3000 && swa start http://localhost:3000 --api-location api --api-language node\"",
+    "build": "nuxt build && nuxt generate",
+    "build:api": "cd api && npm install && npm run build",
     "start": "nuxt start",
     "preview": "nuxt preview",
     "lint": "eslint . --ext .ts,.vue,.js"
@@ -33,6 +36,7 @@
     "@typescript-eslint/parser": "^8.61.0",
     "@vue/tsconfig": "^0.4.0",
     "autoprefixer": "^10.5.0",
+    "concurrently": "^10.0.3",
     "eslint": "^9.0.0",
     "eslint-plugin-vue": "^9.0.0",
     "globals": "^16.0.0",

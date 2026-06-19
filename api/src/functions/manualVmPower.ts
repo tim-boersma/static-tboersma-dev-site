@@ -1,0 +1,95 @@
+import { app } from "@azure/functions";
+import { HttpRequest, HttpResponseInit } from "@azure/functions/types/http";
+import { InvocationContext } from "@azure/functions/types/InvocationContext";
+import { getComputeClient, getRequestedState, getRequiredEnv, writeOverride } from "../utilities";
+
+export async function manualVmPower(
+  request: HttpRequest,
+  context: InvocationContext
+): Promise<HttpResponseInit> {
+
+  const logger = context.log;
+
+  const storageConnection = getRequiredEnv("AzureWebJobsStorage");
+  const tableName = getRequiredEnv("OVERRIDE_TABLE_NAME");
+  const subscriptionId = getRequiredEnv("VM_SUBSCRIPTION_ID");
+  const resourceGroup = getRequiredEnv("VM_RESOURCE_GROUP");
+  const vmName = getRequiredEnv("VM_NAME");
+
+  try {
+    const requestedState = getRequestedState(request);
+    logger(`RequestedState=${requestedState}`);
+
+    const client = getComputeClient(subscriptionId);
+
+    const instanceView = await client.virtualMachines.instanceView(
+      resourceGroup,
+      vmName
+    );
+
+    const powerStatus = instanceView.statuses?.find(s =>
+      s.code?.startsWith("PowerState/")
+    )?.code;
+
+    const canPowerOff = powerStatus === "PowerState/running";
+    const canPowerOn =
+      powerStatus === "PowerState/stopped" ||
+      powerStatus === "PowerState/deallocated";
+
+    if (requestedState && canPowerOn) {
+      const overrideUntil = new Date(Date.now() + 4 * 60 * 60 * 1000);
+
+      await writeOverride(storageConnection, tableName, overrideUntil);
+
+      await client.virtualMachines.start(resourceGroup, vmName);
+
+      logger(`Starting VM until ${overrideUntil.toISOString()}`);
+
+      return {
+        status: 202,
+        body: `VM starting. Override until ${overrideUntil.toISOString()}`
+      };
+    }
+
+    if (!requestedState && canPowerOff) {
+      await client.virtualMachines.powerOff(resourceGroup, vmName);
+
+      await writeOverride(storageConnection, tableName, null);
+
+      logger("Stopping VM");
+
+      return {
+        status: 202,
+        body: "VM stop initiated."
+      };
+    }
+
+    return {
+      status: 400,
+      body: `Invalid operation. Current state: ${powerStatus}`
+    };
+
+  } catch (err: unknown) {
+    if ((err as Error).message?.includes("state")) {
+      return {
+        status: 400,
+        body: "Query param 'state' must be true or false."
+      };
+    }
+
+    context.error(err);
+
+    return {
+      status: 500,
+      body: "Failed to process VM request."
+    };
+  }
+}
+
+app.http("ManualVmPower", {
+  methods: ["PUT"],
+  route: "vm/manual",
+  authLevel: "function",
+  handler: manualVmPower
+});
+

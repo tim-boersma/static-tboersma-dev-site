@@ -1,0 +1,26 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "func start",
+    "test": "echo \"No tests yet...\"",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@azure/arm-compute": "^24.0.0",
+    "@azure/data-tables": "^13.3.2",
+    "@azure/functions": "^4.16.1",
+    "@azure/identity": "^4.13.1",
+    "applicationinsights": "^3.15.0"
+  },
+  "main": "dist/src/index.js",
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "concurrently": "^10.0.3"
+  },
+  "allowScripts": {
+    "protobufjs@7.6.4": true,
+    "protobufjs@8.0.1": true
+  }
+}
