@@ -62,5 +62,6 @@ export default defineNuxtConfig({
     prerender: {
       failOnError: true,
     }
-  }
+  },
+  srcDir: 'app',
 });
