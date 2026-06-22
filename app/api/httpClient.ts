@@ -1,4 +1,4 @@
-import axios, { type AxiosInstance } from 'axios';
+import axios, { type AxiosInstance, type AxiosRequestHeaders } from 'axios';
 
 type HeaderMap = Record<string, string>;
 
@@ -59,27 +59,27 @@ export class HttpClient {
 }
 
 export const createHttpClient = (options: HttpClientOptions): AxiosInstance => {
+  if(isPrerender()) {
+    console.warn('Prerender mode detected - returning dummy HTTP client');
+    return axios.create({
+      baseURL: '',
+      adapter: async () => {
+        return {
+          data: null,
+          status: 204,
+          statusText: 'No Content (prerender)',
+          headers: {},
+          config: { headers: {} as AxiosRequestHeaders },
+        };
+      },
+    });
+  }
   return new HttpClient(options).client;
 };
 
-export const getAzureHttpClient = (): AxiosInstance => {
-  const runtimeConfig = useRuntimeConfig();
+export const isPrerender = () =>
+  import.meta.prerender;
 
-  if (!runtimeConfig.azureFunctionUrl) {
-    throw new Error('Missing azureFunctionUrl runtime config');
-  }
-
-  if (!runtimeConfig.apiFunctionMasterKey) {
-    throw new Error('Missing apiFunctionMasterKey runtime config');
-  }
-
-  return createHttpClient({
-    baseURL: runtimeConfig.azureFunctionUrl,
-    headers: {
-      'x-functions-key': runtimeConfig.apiFunctionMasterKey,
-    },
-  });
-};
 export const getProxyHttpClient = (): AxiosInstance => {
   return createHttpClient({
     baseURL: '/api',

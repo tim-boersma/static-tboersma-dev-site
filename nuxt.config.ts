@@ -58,6 +58,9 @@ export default defineNuxtConfig({
   },
   ssr: true,
   nitro: {
-    preset: 'static'
+    preset: 'static',
+    prerender: {
+      failOnError: true,
+    }
   }
 });
