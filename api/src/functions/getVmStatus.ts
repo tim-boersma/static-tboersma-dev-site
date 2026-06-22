@@ -7,14 +7,13 @@ export async function vmCurrentStatus(
   context: InvocationContext
 ): Promise<HttpResponseInit> {
 
-  const logger = context.log;
 
   const subscriptionId: string = getRequiredEnv("VM_SUBSCRIPTION_ID");
   const resourceGroup: string = getRequiredEnv("VM_RESOURCE_GROUP");
   const vmName: string = getRequiredEnv("VM_NAME");
 
   try {
-    logger("VM status requested");
+    context.log("VM status requested");
 
     const client = getComputeClient(subscriptionId);
 

@@ -8,8 +8,6 @@ export async function manualVmPower(
   context: InvocationContext
 ): Promise<HttpResponseInit> {
 
-  const logger = context.log;
-
   const storageConnection = getRequiredEnv("AzureWebJobsStorage");
   const tableName = getRequiredEnv("OVERRIDE_TABLE_NAME");
   const subscriptionId = getRequiredEnv("VM_SUBSCRIPTION_ID");
@@ -18,7 +16,7 @@ export async function manualVmPower(
 
   try {
     const requestedState = getRequestedState(request);
-    logger(`RequestedState=${requestedState}`);
+    context.log(`RequestedState=${requestedState}`);
 
     const client = getComputeClient(subscriptionId);
 
@@ -41,9 +39,10 @@ export async function manualVmPower(
 
       await writeOverride(storageConnection, tableName, overrideUntil);
 
-      await client.virtualMachines.start(resourceGroup, vmName);
+      //nondeprecated methods don't allow for no-wait, more robust solution would involve implenting a queue to handle power operations
+      await client.virtualMachines.beginStart(resourceGroup, vmName);
 
-      logger(`Starting VM until ${overrideUntil.toISOString()}`);
+      context.log(`Starting VM until ${overrideUntil.toISOString()}`);
 
       return {
         status: 202,
@@ -52,11 +51,13 @@ export async function manualVmPower(
     }
 
     if (!requestedState && canPowerOff) {
-      await client.virtualMachines.powerOff(resourceGroup, vmName);
+
+      //nondeprecated methods don't allow for no-wait, more robust solution would involve implenting a queue to handle power operations
+      await client.virtualMachines.beginPowerOff(resourceGroup, vmName);
 
       await writeOverride(storageConnection, tableName, null);
 
-      logger("Stopping VM");
+      context.log("Stopping VM");
 
       return {
         status: 202,
