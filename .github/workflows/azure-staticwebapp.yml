@@ -1,79 +1,39 @@
-name: Deploy web app to Azure Static Web Apps
+name: Azure Static Web Apps CI/CD
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
     types: [opened, synchronize, reopened, closed]
-    branches: [ "main" ]
-
-env:
-  APP_LOCATION: "." # location of your client code
-  API_LOCATION: "./api/" # location of your api source code - optional
-  APP_ARTIFACT_LOCATION: ".output/public/" # location of client code build output
-  AZURE_STATIC_WEB_APPS_API_TOKEN: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }} # secret containing deployment token for your static web app
-
-permissions:
-  contents: read
+    branches:
+      - main
 
 jobs:
   build_and_deploy_job:
-    permissions:
-      contents: read # for actions/checkout to fetch code
-      pull-requests: write # for Azure/static-web-apps-deploy to comment on PRs
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v3
         with:
           submodules: true
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Preflight API Build
-        working-directory: ./api
-        run: |
-          npm ci
-          npm run build
-
-      - name: Preflight API Entry Load
-        working-directory: ./api
-        run: |
-          node -e "require('./dist/src/index.js'); console.log('Functions entry loaded successfully.')"
-
-      - name: Preflight API Output Tree
-        run: |
-          echo "--- api/dist ---"
-          ls -la ./api/dist || true
-          echo "--- api/dist/src ---"
-          ls -la ./api/dist/src || true
-          echo "--- api/dist/src/functions ---"
-          ls -la ./api/dist/src/functions || true
-
+          lfs: false
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
-        env:
-          DEBUG: true
         with:
-          azure_static_web_apps_api_token: ${{ env.AZURE_STATIC_WEB_APPS_API_TOKEN }} # secret containing api token for app
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
           action: "upload"
-          ###### Repository/Build Configurations - These values can be configured to match you app requirements. ######
+          ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
           # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
-          app_location: ${{ env.APP_LOCATION }}
-          api_location: ${{ env.API_LOCATION }}
-          app_artifact_location: ${{ env.APP_ARTIFACT_LOCATION }}
+          app_location: "/" # App source code path
+          api_location: "api/server/dist/src" # Api source code path - optional
+          output_location: ".output/public" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
 
-
   close_pull_request_job:
-    permissions:
-      contents: none
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
     runs-on: ubuntu-latest
     name: Close Pull Request Job
@@ -82,5 +42,5 @@ jobs:
         id: closepullrequest
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ env.AZURE_STATIC_WEB_APPS_API_TOKEN }} # secret containing api token for app
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           action: "close"
