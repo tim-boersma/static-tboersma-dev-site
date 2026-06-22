@@ -6,7 +6,7 @@
     "dev:nuxt": "nuxt dev",
     "dev:api": "cd api && npm run build && cd .. && swa start http://localhost:3000 --api-location api --api-language node",
     "dev": "concurrently \"nuxt dev\" \"cd api && tsc --watch\" \"cd api && func start\"",
-    "build": "nuxt build && nuxt generate",
+    "build": "nuxt build && nuxt generate && cd api && npm install && npm run build",
     "build:api": "cd api && npm install && npm run build",
     "start": "nuxt start",
     "preview": "nuxt preview",
