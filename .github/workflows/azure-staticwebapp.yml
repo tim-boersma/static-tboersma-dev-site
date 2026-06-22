@@ -29,6 +29,31 @@ jobs:
         with:
           submodules: true
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Preflight API Build
+        working-directory: ./api
+        run: |
+          npm ci
+          npm run build
+
+      - name: Preflight API Entry Load
+        working-directory: ./api
+        run: |
+          node -e "require('./dist/src/index.js'); console.log('Functions entry loaded successfully.')"
+
+      - name: Preflight API Output Tree
+        run: |
+          echo "--- api/dist ---"
+          ls -la ./api/dist || true
+          echo "--- api/dist/src ---"
+          ls -la ./api/dist/src || true
+          echo "--- api/dist/src/functions ---"
+          ls -la ./api/dist/src/functions || true
+
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
