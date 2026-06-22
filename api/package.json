@@ -22,5 +22,8 @@
   "allowScripts": {
     "protobufjs@7.6.4": true,
     "protobufjs@8.0.1": true
+  },
+  "engines": {
+    "node": "20.x"
   }
 }
