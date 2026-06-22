@@ -17,7 +17,7 @@
   "main": "dist/src/index.js",
   "devDependencies": {
     "@types/node": "^20.19.43",
-    "concurrently": "^10.0.3"
+    "concurrently": "^9.2.3"
   },
   "allowScripts": {
     "protobufjs@7.6.4": true,
