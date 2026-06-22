@@ -8,7 +8,7 @@ export async function manualVmPower(
   context: InvocationContext
 ): Promise<HttpResponseInit> {
 
-  const storageConnection = getRequiredEnv("AzureWebJobsStorage");
+  const storageConnection = getRequiredEnv("PLEX_STORAGE_CONNECTION_STRING");
   const tableName = getRequiredEnv("OVERRIDE_TABLE_NAME");
   const subscriptionId = getRequiredEnv("VM_SUBSCRIPTION_ID");
   const resourceGroup = getRequiredEnv("VM_RESOURCE_GROUP");

@@ -2,7 +2,7 @@
   "IsEncrypted": false,
   "Values": {
     "OVERRIDE_TABLE_NAME": "VmOverride",
-    "AzureWebJobsStorage": "<Web Jobs Storage Connection String>",
+    "PLEX_STORAGE_CONNECTION_STRING": "<Web Jobs Storage Connection String>",
     "APPINSIGHTS_INSTRUMENTATIONKEY": "<Application Insights Instrumentation Key>",
     "APPLICATIONINSIGHTS_CONNECTION_STRING": "<Application Insights Connection String>",
     "APPINSIGHTS_PROFILERFEATURE_VERSION": "1.0.0",
