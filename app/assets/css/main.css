@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@source "../**/*.{vue,ts,js}";
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: #020617;
+}
+
+/* Fix Primevue toast alignment*/
+.p-toast-summary {
+    line-height: 1;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+/* @custom-variant sepia (&:where(.sepia, .sepia *)); */

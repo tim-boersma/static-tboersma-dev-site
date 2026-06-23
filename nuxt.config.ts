@@ -9,6 +9,7 @@ export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
     '@primevue/nuxt-module',
+    '@nuxtjs/color-mode'
   ],
   vite: {
     optimizeDeps: {
@@ -47,7 +48,7 @@ export default defineNuxtConfig({
     },
   },
   css: [
-    './app/styles/tailwind.css',
+    './app/assets/css/main.css',
     'primeicons/primeicons.css',
   ],
   runtimeConfig: {

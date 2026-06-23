@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev:nuxt": "nuxt dev",
-    "dev": "concurrently \"nuxt dev\" \"cd api && tsc --watch\" \"cd api && func start\"",
+    "dev": "concurrently \"nuxt dev\" \"cd api && tsc && func start\"",
     "build": "nuxt build && nuxt generate && cd api && npm install && npm run build",
     "build:api": "cd api && npm install && npm run build",
     "start": "nuxt start",
@@ -15,6 +15,7 @@
     "node": "20.x"
   },
   "dependencies": {
+    "@nuxtjs/color-mode": "^4.0.1",
     "@pinia/colada": "^1.3.1",
     "@pinia/nuxt": "^0.11.3",
     "@primeuix/themes": "^2.0.3",
