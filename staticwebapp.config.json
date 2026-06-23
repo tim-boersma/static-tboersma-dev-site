@@ -1,5 +1,17 @@
 {
   "platform": {
     "apiRuntime": "node:20"
+  },
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": [
+      "/api/*",
+      "/_nuxt/*",
+      "/*.ico",
+      "/*.png",
+      "/*.svg",
+      "/*.json",
+      "/*.webmanifest"
+    ]
   }
 }
