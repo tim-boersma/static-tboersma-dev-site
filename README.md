@@ -2,7 +2,42 @@
 
 A modern web application for controlling and monitoring virtual machines in Azure. Built with Nuxt 4, Vue 3, and deployed as an Azure Static Web App with serverless Azure Functions backend.
 
-## 🎯 Features
+## Setup
+
+### Installation
+
+1. **Clone and install**
+
+   ```bash
+   git clone <repo-url>
+   cd tboersma-dev-site
+   npm install
+   cd api && npm install && cd ..
+   ```
+
+2. **Set up environment variables**
+   Fill in values for `local.settings.json` in `/api/`:
+
+### Local Development
+
+The dev command has been set up to build the api, start the dev server, and start the local Azure Functions
+
+```bash
+npm run dev
+```
+
+### Building for Production
+
+The build command is also configured to build the local Azure Functions as well
+
+```bash
+# Build frontend and API
+npm run build
+```
+
+## Description
+
+### 🎯 Features
 
 - **Real-time VM Status Monitoring** – Check if your VM is running or stopped with automatic polling
 - **One-Click VM Control** – Easily turn your VM on or off with visual feedback
@@ -12,7 +47,7 @@ A modern web application for controlling and monitoring virtual machines in Azur
 - **Responsive Design** – Works on desktop and mobile devices
 - **Type-Safe Backend** – Built with TypeScript for reliability
 
-## 🏗️ Architecture
+### 🏗️ Architecture
 
 ```text
 ┌─────────────────────┐
@@ -80,41 +115,6 @@ A modern web application for controlling and monitoring virtual machines in Azur
   - Virtual Machine
   - Storage Account
   - Application Insights instance
-
-### Installation
-
-1. **Clone and install**
-
-   ```bash
-   git clone <repo-url>
-   cd tboersma-dev-site
-   npm install
-   cd api && npm install && cd ..
-   ```
-
-2. **Set up environment variables**
-   Fill in values for `local.settings.json` in `/api/`:
-
-### Local Development
-
-The dev command has been set up to build the api, start the dev server, and start the functions
-You do need to run an additional command to host the local proxy server to redirect traffic to the azure functions
-
-```bash
-npm run dev
-
-swa start http://localhost:3000 --api-location api/dist #in a different terminal
-```
-
-### Building for Production
-
-```bash
-# Build API
-cd api && npm run build && cd ..
-
-# Build frontend
-npm run build
-```
 
 Output:
 

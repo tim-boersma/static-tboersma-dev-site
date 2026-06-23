@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev:nuxt": "nuxt dev",
-    "dev": "concurrently \"nuxt dev\" \"cd api && tsc && func start\"",
+    "dev": "concurrently \"nuxt dev\" \"cd api && tsc\" \"swa start http://localhost:3000 --api-location ./api/\"",
     "build": "nuxt build && nuxt generate && cd api && npm install && npm run build",
     "build:api": "cd api && npm install && npm run build",
     "start": "nuxt start",

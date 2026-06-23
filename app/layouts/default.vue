@@ -1,4 +1,5 @@
 <script setup="ts">
+import { definePageMeta } from '#imports'
 // TODO: implement https://color-mode.nuxtjs.org/usage/basic
 
 definePageMeta({
