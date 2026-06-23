@@ -82,6 +82,6 @@ export const isPrerender = () =>
 
 export const getProxyHttpClient = (): AxiosInstance => {
   return createHttpClient({
-    baseURL: '/api',
+    baseURL: '',
   });
 };

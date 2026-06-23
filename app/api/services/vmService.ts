@@ -9,7 +9,7 @@ export const vmService = {
 	 */
 	async getStatus(): Promise<VmState> {
 		const proxyHttpClient = getProxyHttpClient();
-		const response = await proxyHttpClient.get<string>('/vm/status');
+		const response = await proxyHttpClient.get<string>('/api/vm/status');
 		return response.data as VmState;
 	},
 
@@ -20,7 +20,7 @@ export const vmService = {
 	 */
 	async toggleVM(state: boolean): Promise<string> {
 		const proxyHttpClient = getProxyHttpClient();
-		const response = await proxyHttpClient.put<string>(`/vm/manual?state=${state}`);
+		const response = await proxyHttpClient.put<string>(`/api/vm/manual?state=${state}`);
 		return response.data;
 	},
 };
