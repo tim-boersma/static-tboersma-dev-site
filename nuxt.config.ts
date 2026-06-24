@@ -24,17 +24,17 @@ export default defineNuxtConfig({
       watch: {
         usePolling: true
       }
-    }
+    } 
   },
   primevue: {
-    importTheme: { from: '@/assets/themes/tbtheme.ts' },
+    importTheme: { from: '@/assets/themes/tbTheme.ts' },
   },
   devtools: {
     enabled: true,
   },
   debug: false,
   alias: {
-    '@': fileURLToPath(new URL('./app/', import.meta.url)),
+    '@': fileURLToPath(new URL('./app', import.meta.url)),
     '~': fileURLToPath(new URL('./', import.meta.url)),
   },
   postcss: {
