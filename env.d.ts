@@ -1,4 +1,3 @@
-import { ref, type Ref } from 'vue'
 import {
   useQuery,
   type UseQueryOptions,

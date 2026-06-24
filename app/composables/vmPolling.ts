@@ -1,7 +1,3 @@
-/**
- * VM Polling utilities for managing polling intervals
- */
-
 export interface PollingConfig {
   normalInterval: number;
   fastInterval: number;

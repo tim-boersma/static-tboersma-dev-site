@@ -1,6 +1,5 @@
 import { fileURLToPath } from 'node:url';
 import { config as dotenvConfig } from 'dotenv';
-import Aura from '@primeuix/themes/aura';
 
 dotenvConfig({ path: '.env' });
 
@@ -9,6 +8,7 @@ export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
     '@primevue/nuxt-module',
+    '@nuxt/eslint',
     '@nuxtjs/color-mode'
   ],
   vite: {
@@ -27,11 +27,7 @@ export default defineNuxtConfig({
     }
   },
   primevue: {
-    options: {
-      theme: {
-        preset: Aura
-      }
-    }
+    importTheme: { from: '@/assets/themes/tbtheme.ts' },
   },
   devtools: {
     enabled: true,

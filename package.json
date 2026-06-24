@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev:nuxt": "nuxt dev",
-    "dev": "concurrently \"nuxt dev\" \"cd api && tsc\" \"swa start http://localhost:3000 --api-location ./api/\"",
+    "dev": "concurrently \"nuxt dev\" \"cd api && tsc -w\" \"cd api && func start\" \"swa start http://localhost:3000 --api-location http://localhost:7071\"",
     "build": "nuxt build && nuxt generate && cd api && npm install && npm run build",
     "build:api": "cd api && npm install && npm run build",
     "start": "nuxt start",
@@ -15,6 +15,7 @@
     "node": "20.x"
   },
   "dependencies": {
+    "@nuxt/eslint": "^1.15.2",
     "@nuxtjs/color-mode": "^4.0.1",
     "@pinia/colada": "^1.3.1",
     "@pinia/nuxt": "^0.11.3",
@@ -58,6 +59,7 @@
     "esbuild@0.27.7": true,
     "esbuild@0.28.1": true,
     "@parcel/watcher@2.5.6": true,
-    "protobufjs": false
+    "protobufjs": false,
+    "unrs-resolver@1.12.2": true
   }
 }

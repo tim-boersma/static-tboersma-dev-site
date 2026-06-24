@@ -1,4 +1,4 @@
-import { type UseMutationReturn, type UseQueryReturn } from '@pinia/colada';
+import type { UseMutationReturn, UseQueryReturn } from '@pinia/colada';
 import vmService from '@/api/services/vmService';
 import type { VmState } from '@/types/VmState';
 import { useClientSafeMutation, useClientSafeQuery, useClientSafeQueryCache } from '~/app/utilities/safePinia';

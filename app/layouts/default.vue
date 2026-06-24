@@ -1,15 +1,13 @@
 <script setup="ts">
-import { definePageMeta } from '#imports'
-// TODO: implement https://color-mode.nuxtjs.org/usage/basic
-
-definePageMeta({
-  colorMode: 'dark',
-})
 </script>
 <template>
-  <div >
+  <div>
     <Toast position="top-center" group="tc" />
-
-    <slot />
+    <ViewWrapper>
+      <DarkModeToggle 
+        lock-color class="text-3xl ml-2 mt-2"
+        @click="() => $colorMode.preference = $colorMode.preference === 'dark' ? 'light' : 'dark'" />
+      <slot />
+    </ViewWrapper>
   </div>
 </template>

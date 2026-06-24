@@ -42,7 +42,7 @@ export class HttpClient {
         const message = error.response?.data?.message || error.message || 'An error occurred';
         const status = error.response?.status;
 
-        console.error(`API Error [${status}]:`, message);
+        // console.error(`API Error [${status}]:`, message);
 
         return Promise.reject({
           status,
@@ -60,7 +60,6 @@ export class HttpClient {
 
 export const createHttpClient = (options: HttpClientOptions): AxiosInstance => {
   if(isPrerender()) {
-    console.warn('Prerender mode detected - returning dummy HTTP client');
     return axios.create({
       baseURL: '',
       adapter: async () => {
